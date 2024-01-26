@@ -1,13 +1,12 @@
-package Advancedquestions;
-
+package Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class aq01 {
+public class UpdateSample {
   public static void main(String[] args) {
-    String url = "jdbc:postgresql://localhost:5432/student";
+    String url ="jdbc:postgresql://localhost:5432/student";
     String user = "postgres";
     String password = "postgres";
 
@@ -16,26 +15,19 @@ public class aq01 {
     String sql = null;
 
     try {
+      // データベースに接続
       con = DriverManager.getConnection(url, user, password);
+      // sql作成
       sql = """
-          drop table if exists members;
-          create table colors(
-            id integer primary key,
-            name text
-          );
-          drop table if exists members;
-          create table members(
-            id serial primary key,
-            name text not null,
-            birth_day date,
-            gender varchar(1),
-            color_id integer references colors(id);
-          );
+          insert into employees(name, age)
+          values ('テスト太郎', 19);
           """;
+      // sql実行準備
       pstmt = con.prepareStatement(sql);
+      // sql実行
       int numOfUpdate = pstmt.executeUpdate();
-
       System.out.println(numOfUpdate + "件のデータを操作しました。");
+
     } catch (SQLException ex) {
       ex.printStackTrace();
     } finally {
@@ -45,8 +37,8 @@ public class aq01 {
         }
         if(pstmt != null) {
           pstmt.close();
-        }
-      } catch (SQLException e) {
+      } 
+    } catch (SQLException e) {
         e.printStackTrace();
       }
     }

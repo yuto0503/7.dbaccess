@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class aq01 {
+public class aq06 {
   public static void main(String[] args) {
     String url = "jdbc:postgresql://localhost:5432/student";
     String user = "postgres";
@@ -16,25 +16,16 @@ public class aq01 {
     String sql = null;
 
     try {
+      // SQLデータベースに接続
       con = DriverManager.getConnection(url, user, password);
+      // SQLを作成
       sql = """
-          drop table if exists members;
-          create table colors(
-            id integer primary key,
-            name text
-          );
-          drop table if exists members;
-          create table members(
-            id serial primary key,
-            name text not null,
-            birth_day date,
-            gender varchar(1),
-            color_id integer references colors(id);
-          );
+        drop table members;
           """;
+      // SQL実行準備
       pstmt = con.prepareStatement(sql);
+      // SQL実行
       int numOfUpdate = pstmt.executeUpdate();
-
       System.out.println(numOfUpdate + "件のデータを操作しました。");
     } catch (SQLException ex) {
       ex.printStackTrace();
